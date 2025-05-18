@@ -1,73 +1,40 @@
 from flask import Flask, request, jsonify
-import uuid
-import json
-import os
-from datetime import datetime, timedelta
 
 app = Flask(__name__)
 
-DATA_FILE = 'data.json'
+# Beispielhafte Account-Daten (kann durch eine JSON-Datei ersetzt werden)
+accounts = [
+    {
+        "username": "admin",
+        "password": "1a2b3d4C.00",
+        "key": "1a2b3d4C.00",
+        "hwid": None  # wird beim ersten Login gesetzt
+    }
+]
 
-# Lade bestehende Daten oder initialisiere eine leere Liste
-if os.path.exists(DATA_FILE):
-    with open(DATA_FILE, 'r') as f:
-        users = json.load(f)
-else:
-    users = []
-
-def save_data():
-    with open(DATA_FILE, 'w') as f:
-        json.dump(users, f, indent=4)
-
-@app.route('/', methods=['POST'])
+@app.route("/", methods=["POST"])
 def login():
     data = request.get_json()
-    username = data.get('username')
-    password = data.get('password')
-    key = data.get('key')
-    hwid = data.get('hwid')
 
-    for user in users:
-        if user['username'] == username and user['password'] == password and user['key'] == key:
-            expiry_date = datetime.strptime(user['expiry'], '%Y-%m-%d')
-            if datetime.now() > expiry_date:
-                return jsonify({'success': False, 'message': 'Key abgelaufen'})
-            if user['hwid'] == '' or user['hwid'] == hwid:
-                user['hwid'] = hwid
-                save_data()
-                return jsonify({'success': True})
+    if not data:
+        return jsonify({"success": False, "message": "Ungültige Anfrage"}), 400
+
+    username = data.get("username")
+    password = data.get("password")
+    key = data.get("key")
+    hwid = data.get("hwid")
+
+    for acc in accounts:
+        if acc["username"] == username and acc["password"] == password and acc["key"] == key:
+            if acc["hwid"] is None:
+                acc["hwid"] = hwid  # ersten HWID setzen
+                return jsonify({"success": True, "message": "Login erfolgreich. HWID gespeichert."})
+            elif acc["hwid"] == hwid:
+                return jsonify({"success": True, "message": "Login erfolgreich."})
             else:
-                return jsonify({'success': False, 'message': 'HWID nicht gültig'})
-    return jsonify({'success': False, 'message': 'Ungültige Anmeldedaten'})
+                return jsonify({"success": False, "message": "Falsche HWID."}), 403
 
-@app.route('/admin', methods=['POST'])
-def admin_login():
-    data = request.get_json()
-    username = data.get('username')
-    password = data.get('password')
+    return jsonify({"success": False, "message": "Ungültige Zugangsdaten."}), 401
 
-    if username == 'Admin' and password == '1a2b3d4C.00':
-        return jsonify({'success': True})
-    else:
-        return jsonify({'success': False, 'message': 'Ungültige Admin-Anmeldedaten'})
-
-@app.route('/add_user', methods=['POST'])
-def add_user():
-    data = request.get_json()
-    username = data.get('username')
-    password = data.get('password')
-    validity_days = data.get('validity_days')
-
-    new_user = {
-        'username': username,
-        'password': password,
-        'key': str(uuid.uuid4()),
-        'expiry': (datetime.now() + timedelta(days=validity_days)).strftime('%Y-%m-%d'),
-        'hwid': ''
-    }
-    users.append(new_user)
-    save_data()
-    return jsonify({'success': True, 'user': new_user})
-
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=10000)
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=10000)
