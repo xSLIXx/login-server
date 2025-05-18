@@ -2,13 +2,19 @@ from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
-# Beispielhafte Account-Daten (kann durch eine JSON-Datei ersetzt werden)
+# Beispielhafte Account-Daten
 accounts = [
     {
         "username": "admin",
         "password": "1a2b3d4C.00",
         "key": "1a2b3d4C.00",
-        "hwid": None  # wird beim ersten Login gesetzt
+        "hwid": None
+    },
+    {
+        "username": "Niro",
+        "password": "1234",
+        "key": "2339",
+        "hwid": None
     }
 ]
 
