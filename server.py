@@ -9,6 +9,13 @@ accounts = [
         "password": "1a2b3d4C.00",
         "key": "1a2b3d4C.00",
         "hwid": None  # wird beim ersten Login gesetzt
+
+        "username": "Niro",
+        "password": "1234",
+        "key": "fa00378c-df42-4ea1-a8cf-92b4f2e9f3ba",
+        "expiry": "2025-05-19",
+        "hwid": ""
+
     }
 ]
 
