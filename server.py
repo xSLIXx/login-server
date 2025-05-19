@@ -1,9 +1,8 @@
 from flask import Flask, request, jsonify
-from datetime import datetime
 
 app = Flask(__name__)
 
-# Beispielhafte Account-Daten mit Ablaufdatum (YYYY-MM-DD)
+# Beispielhafte Account-Daten
 accounts = [
     {
         "username": "admin",
@@ -65,12 +64,16 @@ def login():
         if acc["username"] == username and acc["password"] == password and acc["key"] == key:
 
             # Ablaufdatum prüfen
-            expires_at = datetime.strptime(acc["expires_at"], "%Y-%m-%d")
-            if datetime.now() > expires_at:
-                return jsonify({"success": False, "message": "Key abgelaufen."}), 403
-
+            try:
+                expires_at = datetime.strptime(acc["expires_at"], "%Y-%m-%d")
+                if datetime.now() > expires_at:
+                    return jsonify({"success": False, "message": "Key abgelaufen."}), 403
+            except Exception:
+                return jsonify({"success": False, "message": "Fehler beim Ablaufdatum"}), 500
+                
+        if acc["username"] == username and acc["password"] == password and acc["key"] == key:
             if acc["hwid"] is None:
-                acc["hwid"] = hwid
+                acc["hwid"] = hwid  # ersten HWID setzen
                 return jsonify({"success": True, "message": "Login erfolgreich. HWID gespeichert."})
             elif acc["hwid"] == hwid:
                 return jsonify({"success": True, "message": "Login erfolgreich."})
