@@ -24,28 +24,28 @@ accounts = [
         "password": "343!.0",
         "key": "9179e323-f472-4ae7-a507-97d1e0eec1a4",
         "hwid": None,
-        "expires_at": "20925-05-26"
+        "expires_at": "2025-05-26"
     },
     {
         "username": "Tariq",
         "password": "3436",
         "key": "d90a8ba5-a552-455f-b8b7-b1d9c65ee936",
         "hwid": None,
-        "expires_at": "20929-05-26"
+        "expires_at": "2029-05-26"
     },
     {
         "username": "Brunox",
         "password": "3436",
         "key": "dca39d35-30dc-4ecc-a297-166e44db477c",
         "hwid": None,
-        "expires_at": "20929-05-26"
+        "expires_at": "2029-05-26"
     },
     {
-        "username": "Hans",
+        "username": "Leon",
         "password": "3436",
         "key": "36d4ae50-08d4-46f1-8951-03ace28cceed",
         "hwid": None,
-        "expires_at": "20929-05-26"
+        "expires_at": "2029-05-26"
     },
 
 ]
