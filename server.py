@@ -47,6 +47,14 @@ accounts = [
         "hwid": None,
         "expires_at": "2029-05-26"
     },
+    {
+        "username": "Julian",
+        "password": "3436",
+        "key": "2915f08e-1fed-4450-817c-2038352e873a",
+        "hwid": None,
+        "expires_at": "2029-05-26"
+    },
+
 
 ]
 
