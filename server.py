@@ -61,6 +61,13 @@ accounts = [
         "hwid": None,
         "expires_at": "2029-05-26"
     },
+    {
+        "username": "Unter Slix Eiern",
+        "password": "324!.i32",
+        "key": "291f10gi8e-1fad-4450-817c-2038352e873a",
+        "hwid": None,
+        "expires_at": "2029-05-26"
+    },
 
 
 ]
